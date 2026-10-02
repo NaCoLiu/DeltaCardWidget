@@ -5,10 +5,3 @@ layout/
 .vs/
 *.user
 
-# Game artwork (Tencent). Generated locally by scripts/fetch-assets.ps1.
-# 游戏美术素材（腾讯版权），由 scripts/fetch-assets.ps1 在本地生成。
-DeltaCard/SourceImages/
-DeltaCard/Assets/Cards/
-DeltaCard/Assets/CardsGray/
-DeltaCard/Assets/*.png
-DeltaCard/GameBar/*.png
