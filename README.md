@@ -4,6 +4,8 @@
 
 An Xbox Game Bar widget for tracking your **Asala card** collection (54 cards) in *Delta Force* — click a card to mark it as collected.
 
+<p align="center"><img src="docs/screenshot.png" alt="Screenshot" width="278"></p>
+
 ## Features
 
 - 54 cards: 4 suits × 13 ranks plus the Small and Big Joker, laid out 4 per row (Heart, Spade, Club, Diamond).
@@ -63,6 +65,8 @@ If `MSBuild.exe` is not in the default Visual Studio 2022 Community location, pa
 ## 简体中文
 
 **三角洲行动卡牌收集工具**：一个 Xbox Game Bar 小组件，用来记录《三角洲行动》**阿萨拉牌**（共 54 张）的收集进度，点击卡牌即可标记为已收集。
+
+<p align="center"><img src="docs/screenshot.png" alt="截图" width="278"></p>
 
 ### 功能
 
