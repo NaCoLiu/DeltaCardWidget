@@ -49,9 +49,10 @@ jobs:
           if (-not $makensis) { throw 'NSIS makensis.exe was not found.' }
           $version = if ($env:GITHUB_REF_TYPE -eq 'tag') { $env:GITHUB_REF_NAME.TrimStart('v') } else { '0.0.0' }
           $output = Join-Path (Resolve-Path dist).Path "$name-Setup.exe"
+          $script = (Resolve-Path installer\DeltaCardWidget.nsi).Path
           & $makensis.FullName "/DPRODUCT_VERSION=$version" `
             "/DPAYLOAD_DIR=$((Resolve-Path $dist).Path)" "/DOUTPUT_EXE=$output" `
-            installer\DeltaCardWidget.nsi
+            $script
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
       - uses: softprops/action-gh-release@v2
