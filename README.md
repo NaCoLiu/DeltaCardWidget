@@ -40,7 +40,7 @@ If `MSBuild.exe` is not in the default Visual Studio 2022 Community location, pa
 
 ### Install a release
 
-Download and run the single-file `DeltaCardWidget-*-Setup.exe` from the [Releases](../../releases) page. Developer Mode must be enabled.
+Download and run the single-file `DeltaCardWidget-*-Setup.exe` from the [Releases](../../releases) page. The installer lets you choose the install folder. Developer Mode must be enabled.
 
 ## Project layout
 
@@ -102,7 +102,7 @@ Game Bar 小组件本质上是 UWP XAML 应用：在 `Package.appxmanifest` 中�
 
 ### 安装已发布版本
 
-从 [Releases](../../releases) 下载并运行单文件 `DeltaCardWidget-*-Setup.exe`。需要先开启开发人员模式。
+从 [Releases](../../releases) 下载并运行单文件 `DeltaCardWidget-*-Setup.exe`，安装时可选择安装目录。需要先开启开发人员模式。
 
 ### 目录说明
 

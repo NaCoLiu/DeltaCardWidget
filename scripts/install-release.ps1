@@ -13,10 +13,41 @@
 #>
 $ErrorActionPreference = 'Stop'
 $package = Join-Path $PSScriptRoot 'package'
+$dependencies = Join-Path $PSScriptRoot 'dependencies'
 
-foreach ($dep in Get-ChildItem (Join-Path $PSScriptRoot 'dependencies') -Filter *.appx -ErrorAction SilentlyContinue) {
-    try { Add-AppxPackage $dep.FullName -ErrorAction Stop }
-    catch { Write-Host "Skipped $($dep.Name): $($_.Exception.Message)" }   # newer version already installed
+Add-Type -AssemblyName System.IO.Compression.FileSystem
+foreach ($dep in Get-ChildItem $dependencies -Filter *.appx -File -ErrorAction SilentlyContinue) {
+  $archive = [System.IO.Compression.ZipFile]::OpenRead($dep.FullName)
+  try {
+    $manifestEntry = $archive.GetEntry('AppxManifest.xml')
+    if (-not $manifestEntry) {
+      throw "Missing AppxManifest.xml in dependency: $($dep.Name)"
+    }
+    $reader = New-Object System.IO.StreamReader($manifestEntry.Open())
+    try {
+      [xml]$manifest = $reader.ReadToEnd()
+    }
+    finally {
+      $reader.Dispose()
+    }
+  }
+  finally {
+    $archive.Dispose()
+  }
+
+  $identity = $manifest.Package.Identity
+  $requiredVersion = [version]$identity.Version
+  $installed = Get-AppxPackage -Name $identity.Name |
+    Where-Object Publisher -EQ $identity.Publisher |
+    Sort-Object Version -Descending |
+    Select-Object -First 1
+
+  if ($installed -and [version]$installed.Version -ge $requiredVersion) {
+    Write-Host "Already installed: $($identity.Name) $($installed.Version) (required $requiredVersion)."
+    continue
+  }
+
+  Add-AppxPackage -Path $dep.FullName -ErrorAction Stop
 }
 
 Get-Process GameBar* -ErrorAction SilentlyContinue | Stop-Process -Force

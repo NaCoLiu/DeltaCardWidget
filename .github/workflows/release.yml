@@ -39,13 +39,20 @@ jobs:
 
           Copy-Item "$($msix.DirectoryName)\Dependencies\x64\*.appx" "$dist\dependencies"
           Copy-Item scripts\install-release.ps1 "$dist\Install.ps1"
+          Copy-Item scripts\uninstall-release.ps1 "$dist\Uninstall.ps1"
           Copy-Item README.md $dist
-          Compress-Archive -Path "$dist\*" -DestinationPath "dist\payload.zip"
-          $payload = (Resolve-Path "dist\payload.zip").Path
-          msbuild installer\DeltaCardInstaller.csproj -restore -p:Configuration=Release `
-            "-p:PayloadZip=$payload" -p:OutputPath=..\dist\installer\
+
+          choco install nsis --yes --no-progress
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-          Copy-Item dist\installer\DeltaCardWidgetInstaller.exe "dist\$name-Setup.exe"
+          $makensis = Get-ChildItem "${env:ProgramFiles(x86)}\NSIS\makensis.exe", `
+            "$env:ProgramFiles\NSIS\makensis.exe" -ErrorAction SilentlyContinue | Select-Object -First 1
+          if (-not $makensis) { throw 'NSIS makensis.exe was not found.' }
+          $version = if ($env:GITHUB_REF_TYPE -eq 'tag') { $env:GITHUB_REF_NAME.TrimStart('v') } else { '0.0.0' }
+          $output = Join-Path (Resolve-Path dist).Path "$name-Setup.exe"
+          & $makensis.FullName "/DPRODUCT_VERSION=$version" `
+            "/DPAYLOAD_DIR=$((Resolve-Path $dist).Path)" "/DOUTPUT_EXE=$output" `
+            installer\DeltaCardWidget.nsi
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
       - uses: softprops/action-gh-release@v2
         if: startsWith(github.ref, 'refs/tags/')
