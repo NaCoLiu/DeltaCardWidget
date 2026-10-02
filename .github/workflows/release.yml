@@ -40,19 +40,24 @@ jobs:
           Copy-Item "$($msix.DirectoryName)\Dependencies\x64\*.appx" "$dist\dependencies"
           Copy-Item scripts\install-release.ps1 "$dist\Install.ps1"
           Copy-Item README.md $dist
-          Compress-Archive -Path $dist -DestinationPath "dist\$name.zip"
+          Compress-Archive -Path "$dist\*" -DestinationPath "dist\payload.zip"
+          $payload = (Resolve-Path "dist\payload.zip").Path
+          msbuild installer\DeltaCardInstaller.csproj -restore -p:Configuration=Release `
+            "-p:PayloadZip=$payload" -p:OutputPath=..\dist\installer\
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          Copy-Item dist\installer\DeltaCardWidgetInstaller.exe "dist\$name-Setup.exe"
 
       - uses: softprops/action-gh-release@v2
         if: startsWith(github.ref, 'refs/tags/')
         with:
-          files: dist/*.zip
+          files: dist/*-Setup.exe
           generate_release_notes: true
           body: |
-            **Install / 安装**: unzip to a permanent folder, enable Developer Mode, then run `Install.ps1` in PowerShell.
-            解压到固定位置，开启开发人员模式，然后在 PowerShell 中运行 `Install.ps1`。
+            **Install / 安装**: download and run the single-file installer. Developer Mode must be enabled.
+            下载并运行单文件安装器。需要先开启开发人员模式。
 
       - uses: actions/upload-artifact@v4
         if: ${{ !startsWith(github.ref, 'refs/tags/') }}
         with:
           name: DeltaCardWidget
-          path: dist/*.zip
+          path: dist/*-Setup.exe

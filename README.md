@@ -38,6 +38,10 @@ Then press `Win+G`, open the widget menu and pick **Delta Force Card Collector**
 
 If `MSBuild.exe` is not in the default Visual Studio 2022 Community location, pass it with `-MSBuild`.
 
+### Install a release
+
+Download and run the single-file `DeltaCardWidget-*-Setup.exe` from the [Releases](../../releases) page. Developer Mode must be enabled.
+
 ## Project layout
 
 | Path | Description |
@@ -95,6 +99,10 @@ Game Bar 小组件本质上是 UWP XAML 应用：在 `Package.appxmanifest` 中�
 然后按 `Win+G`，在小组件菜单里选择“三角洲行动卡牌收集工具”。
 
 如果 `MSBuild.exe` 不在 VS 2022 Community 的默认路径，用 `-MSBuild` 参数指定。
+
+### 安装已发布版本
+
+从 [Releases](../../releases) 下载并运行单文件 `DeltaCardWidget-*-Setup.exe`。需要先开启开发人员模式。
 
 ### 目录说明
 
