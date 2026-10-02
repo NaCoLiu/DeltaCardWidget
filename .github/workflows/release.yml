@@ -29,7 +29,7 @@ jobs:
             -p:AppxBundle=Never -p:TargetPlatformVersion=$($sdk.Name) -v:minimal
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
-      - name: Assemble package (without game artwork)
+      - name: Assemble package
         shell: powershell
         run: |
           $name = "DeltaCardWidget-${{ github.ref_name }}"
@@ -37,16 +37,11 @@ jobs:
           $msix = Get-ChildItem DeltaCard\AppPackages -Recurse -Filter *.msix | Select-Object -First 1
           $makeappx = Get-ChildItem "${env:ProgramFiles(x86)}\Windows Kits\10\bin\*\x64\makeappx.exe" |
             Sort-Object FullName | Select-Object -Last 1
-          New-Item -ItemType Directory -Force "$dist\scripts", "$dist\dependencies" | Out-Null
+          New-Item -ItemType Directory -Force "$dist\dependencies" | Out-Null
           & $makeappx.FullName unpack /p $msix.FullName /d "$dist\package" /nv /o
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
-          # The artwork belongs to Tencent: ship the package without it; Install.ps1 downloads it on the user's machine.
-          Remove-Item "$dist\package\Assets\Cards", "$dist\package\Assets\CardsGray" -Recurse -Force
-          Remove-Item "$dist\package\Assets\*.png", "$dist\package\GameBar\*.png" -Force
-
           Copy-Item "$($msix.DirectoryName)\Dependencies\x64\*.appx" "$dist\dependencies"
-          Copy-Item scripts\fetch-assets.ps1 "$dist\scripts"
           Copy-Item scripts\install-release.ps1 "$dist\Install.ps1"
           Copy-Item README.md $dist
           Compress-Archive -Path $dist -DestinationPath "dist\$name.zip"
@@ -59,9 +54,6 @@ jobs:
           body: |
             **Install / 安装**: unzip to a permanent folder, enable Developer Mode, then run `Install.ps1` in PowerShell.
             解压到固定位置，开启开发人员模式，然后在 PowerShell 中运行 `Install.ps1`。
-
-            The card artwork belongs to Tencent and is not included; `Install.ps1` downloads it for personal use.
-            卡牌图片版权归腾讯所有，发布包不含图片，`Install.ps1` 会在本机下载（仅供个人使用）。
 
       - uses: actions/upload-artifact@v4
         if: ${{ !startsWith(github.ref, 'refs/tags/') }}

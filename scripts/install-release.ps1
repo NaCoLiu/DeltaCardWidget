@@ -4,8 +4,7 @@
 
 .DESCRIPTION
   1. Installs the runtime dependencies.
-  2. Downloads the card artwork into the package (it is not shipped in the release).
-  3. Registers the package for the current user.
+  2. Registers the package for the current user.
   Keep this folder where it is; Windows runs the widget from it.
   请把本文件夹放在固定位置，Windows 会直接从这里运行小组件。
 
@@ -19,8 +18,6 @@ foreach ($dep in Get-ChildItem (Join-Path $PSScriptRoot 'dependencies') -Filter 
     try { Add-AppxPackage $dep.FullName -ErrorAction Stop }
     catch { Write-Host "Skipped $($dep.Name): $($_.Exception.Message)" }   # newer version already installed
 }
-
-& (Join-Path $PSScriptRoot 'scripts\fetch-assets.ps1') -Root $package
 
 Get-Process GameBar* -ErrorAction SilentlyContinue | Stop-Process -Force
 Get-AppxPackage DeltaCardWidget | Remove-AppxPackage
