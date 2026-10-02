@@ -13,12 +13,19 @@
     DeltaCard\GameBar\icon.png   widget icon / 小组件图标
 #>
 param(
-    [float]$TiltDegrees = 24.4   # measured lean of the source art / 原图实测倾角
+    [float]$TiltDegrees = 24.4,   # measured lean of the source art / 原图实测倾角
+    [string]$Root                 # target folder (project or unpacked package) / 目标目录（项目或已解包的安装包）
 )
 
 $ErrorActionPreference = 'Stop'
-$root = Join-Path $PSScriptRoot '..\DeltaCard' | Resolve-Path
-$src = Join-Path $root 'SourceImages'
+if ($Root) {
+    $root = Resolve-Path $Root
+    $src = Join-Path ([IO.Path]::GetTempPath()) 'DeltaCardSource'
+}
+else {
+    $root = Join-Path $PSScriptRoot '..\DeltaCard' | Resolve-Path
+    $src = Join-Path $root 'SourceImages'
+}
 $cards = Join-Path $root 'Assets\Cards'
 $gray = Join-Path $root 'Assets\CardsGray'
 $iconSrc = Join-Path $src 'icon'
