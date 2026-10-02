@@ -16,7 +16,7 @@ $project = Join-Path $PSScriptRoot '..\DeltaCard' | Resolve-Path
 Push-Location $project
 try {
     if (-not (Test-Path 'Assets\Cards')) {
-        throw 'Card images are missing. Run scripts\fetch-assets.ps1 first. / 缺少牌面图片，请先运行 scripts\fetch-assets.ps1。'
+      throw 'Card images are missing from the repository. / 仓库中缺少牌面图片。'
     }
 
     Get-Process DeltaCard, GameBar* -ErrorAction SilentlyContinue | Stop-Process -Force

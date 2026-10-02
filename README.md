@@ -25,15 +25,12 @@ A Game Bar widget is a UWP XAML app. The app declares a `microsoft.gameBarUIExte
 - Visual Studio 2022 with the **Universal Windows Platform development** workload
 - Windows SDK 10.0.26100 (or adjust `TargetPlatformVersion` in `DeltaCard.csproj`)
 - Developer Mode turned on (Settings → Privacy & security → For developers)
-- PowerShell 5.1 or later, and Internet access for the first asset download
+- PowerShell 5.1 or later
 
 ## Build and install
 
 ```powershell
-# 1. Download the artwork and generate images (not stored in this repo)
-.\scripts\fetch-assets.ps1
-
-# 2. Build, unpack and register the widget
+# Build, unpack and register the widget using assets committed to this repo
 .\scripts\install.ps1
 ```
 
@@ -50,13 +47,12 @@ If `MSBuild.exe` is not in the default Visual Studio 2022 Community location, pa
 | `DeltaCard/Package.appxmanifest` | Widget declaration, window size, Game Bar interfaces |
 | `DeltaCard/Strings/` | App name and description (en-US, zh-CN) |
 | `DeltaCard/Assets/Fonts/` | Subset of Maple Mono CN (OFL license included) |
-| `scripts/fetch-assets.ps1` | Downloads artwork, rotates it upright and creates gray versions and app icons |
 | `scripts/install.ps1` | Build and register |
 
 ## Notes
 
 - The Game Bar SDK package is pinned to `7.2.240903001` to match the official sample.
-- The card artwork and icons belong to Tencent / *Delta Force* and are not included in this repository. `fetch-assets.ps1` downloads them for personal use only.
+- Card artwork and icons are committed to this repository and belong to Tencent / *Delta Force*.
 - This is an unofficial fan project and is not affiliated with Tencent or Microsoft.
 - Maple Mono is licensed under the SIL Open Font License 1.1 (see `DeltaCard/Assets/Fonts/Maple-LICENSE.txt`).
 
@@ -87,15 +83,12 @@ Game Bar 小组件本质上是 UWP XAML 应用：在 `Package.appxmanifest` 中�
 - Visual Studio 2022，并安装“通用 Windows 平台开发”工作负载
 - Windows SDK 10.0.26100（或修改 `DeltaCard.csproj` 里的 `TargetPlatformVersion`）
 - 开启开发人员模式（设置 → 隐私和安全性 → 开发者选项）
-- PowerShell 5.1 及以上，首次下载素材需要联网
+- PowerShell 5.1 及以上
 
 ### 构建与安装
 
 ```powershell
-# 1. 下载图片并生成资源（仓库中不包含图片）
-.\scripts\fetch-assets.ps1
-
-# 2. 构建、解包并注册小组件
+# 使用仓库中已提交的资源构建、解包并注册小组件
 .\scripts\install.ps1
 ```
 
@@ -112,12 +105,11 @@ Game Bar 小组件本质上是 UWP XAML 应用：在 `Package.appxmanifest` 中�
 | `DeltaCard/Package.appxmanifest` | 小组件声明、窗口大小、Game Bar 接口 |
 | `DeltaCard/Strings/` | 应用名称与描述（en-US、zh-CN） |
 | `DeltaCard/Assets/Fonts/` | Maple Mono CN 子集（含 OFL 许可证） |
-| `scripts/fetch-assets.ps1` | 下载图片、扶正、生成灰度图和应用图标 |
 | `scripts/install.ps1` | 构建并注册 |
 
 ### 说明
 
 - Game Bar SDK 固定为 `7.2.240903001`，与官方示例一致。
-- 卡牌图片和图标版权归腾讯及《三角洲行动》所有，本仓库不包含；`fetch-assets.ps1` 仅供个人使用下载。
+- 卡牌图片和图标已提交至本仓库，版权归腾讯及《三角洲行动》所有。
 - 本项目为非官方的粉丝作品，与腾讯、微软无关。
 - Maple Mono 使用 SIL Open Font License 1.1 许可（见 `DeltaCard/Assets/Fonts/Maple-LICENSE.txt`）。

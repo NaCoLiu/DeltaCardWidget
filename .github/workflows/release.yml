@@ -16,10 +16,6 @@ jobs:
 
       - uses: microsoft/setup-msbuild@v2
 
-      - name: Generate artwork (needed to build)
-        shell: powershell
-        run: .\scripts\fetch-assets.ps1
-
       - name: Build
         shell: powershell
         run: |
