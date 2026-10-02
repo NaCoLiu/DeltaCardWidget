@@ -1,0 +1,29 @@
+<Page
+    x:Class="DeltaCard.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    FontFamily="ms-appx:///Assets/Fonts/MapleMono-CN-Regular.ttf#Maple Mono CN">
+    <Grid Background="#CC14161C" Padding="5,12,5,12">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid Margin="0,0,0,10">
+            <TextBlock x:Name="TitleText" Text="Card Collection" FontSize="18" FontFamily="ms-appx:///Assets/Fonts/MapleMono-CN-Bold.ttf#Maple Mono CN" VerticalAlignment="Center" />
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <TextBlock x:Name="ProgressText" Text="0/54" FontSize="18" FontFamily="ms-appx:///Assets/Fonts/MapleMono-CN-Bold.ttf#Maple Mono CN"
+                           Foreground="#FFD54A" VerticalAlignment="Center" Margin="0,0,10,0" />
+                <Button x:Name="ResetButton" Content="重置" Padding="10,2" FontFamily="ms-appx:///Assets/Fonts/MapleMono-CN-Regular.ttf#Maple Mono CN" />
+            </StackPanel>
+        </Grid>
+        <ScrollViewer Grid.Row="1" Padding="0,0,12,0" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+            <ItemsControl x:Name="CardGrid">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapGrid Orientation="Horizontal" MaximumRowsOrColumns="4" HorizontalAlignment="Center" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
+        </ScrollViewer>
+    </Grid>
+</Page>
